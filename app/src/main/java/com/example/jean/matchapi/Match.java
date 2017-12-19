@@ -1,5 +1,13 @@
 package com.example.jean.matchapi;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
+import static java.util.logging.Level.parse;
+
 /**
  * Created by Jean on 18-12-2017.
  */
@@ -27,7 +35,17 @@ public class Match {
     }
 
     public String getStartTime() {
-        return startTime;
+        Locale spanish = new Locale("es", "ES");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+       sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date timeParse=null;
+        try {
+            timeParse=sdf.parse(startTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat sdf2 = new SimpleDateFormat(" EE dd 'de' MMM ' - ' HH:mm'hrs'", spanish);
+        return sdf2.format(timeParse);
     }
 
     public void setStartTime(String startTime) {

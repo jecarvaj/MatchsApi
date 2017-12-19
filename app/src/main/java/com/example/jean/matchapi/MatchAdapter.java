@@ -64,7 +64,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
         queue = MySingleton.getInstance(this.context).getImageLoader();
 
         Match currentMatch=itemList.get(position);
-
+        holder.tvDateAndStadium.setText(currentMatch.getStartTime()+" - "+currentMatch.getStadiumName());
         holder.tvLocalName.setText(currentMatch.getLocalName());
         holder.tvVisitName.setText(currentMatch.getVisitName());
         holder.imgLocal.setImageUrl(currentMatch.getLocalImage(), queue);
