@@ -31,62 +31,61 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        queue= Volley.newRequestQueue(this);
-        String url = "http://futbol.masfanatico.cl/api/u-chile/match/in_competition/transicion2017";
-        recyclerView= (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        layoutManager=new LinearLayoutManager(this);
         matchList=new ArrayList<>();
-        recyclerView.setLayoutManager(layoutManager);
+        getData();
+    }
 
+    private void getData() {
+        queue = MySingleton.getInstance(this.getApplicationContext()).
+                getRequestQueue();
 
+        String url = "http://futbol.masfanatico.cl/api/u-chile/match/in_competition/transicion2017";
 
         final JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray=response.getJSONArray("items");
-                            Log.d("APIJSON","RESPONSE:> "+jsonArray.length());
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                Log.d("APIJSON","DENTRO DE FOR:> "+i);
-                                JSONObject item=jsonArray.getJSONObject(i);
-                                String localName=item.getString("local_team_name_s");
-                                String visitName=item.getString("visit_team_name_s");
-                                int localGoals=item.getInt("local_goals_i");
-                                int visitGoals=item.getInt("visit_goals_i");
-                                String localImage=item.getString("local_team_image_team-icon_url_s");
-                                String visitImage=item.getString("visit_team_image_team-icon_url_s");
-                                String stadiumName=item.getString("stadium_name_s");
-                                String startTime=item.getString("start_time_dt");
-                                Match match=new Match(localName, visitName, localGoals, visitGoals,
-                                        localImage, visitImage, stadiumName, startTime);
-                                matchList.add(match);
-                            }
-
-                            adapter=new MatchAdapter(matchList);
-
-                            recyclerView.setAdapter(adapter);
-                            Log.d("APIJSON","TERMINA ADAPTER");
+                            JSONArray jsonArray = response.getJSONArray("items");
+                            parseData(jsonArray);//Funcion para crear objetos "Match" a partir de json data
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 }, new Response.ErrorListener() {
-
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // TODO Auto-generated method stub
-                        Log.d("APIJSON","PROBLEMAS CON LA GET ");
-
+                        error.printStackTrace();
                     }
                 });
-        queue.add(jsObjRequest);
-        Log.d("APIJSON","COMIENZO ADAPTER");
 
+        MySingleton.getInstance(this).addToRequestQueue(jsObjRequest);
+    }
 
+    private void parseData(JSONArray jsonArray) throws JSONException {
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject item=jsonArray.getJSONObject(i);
+            String localName=item.getString("local_team_name_s");
+            String visitName=item.getString("visit_team_name_s");
+            int localGoals=item.getInt("local_goals_i");
+            int visitGoals=item.getInt("visit_goals_i");
+            String localImage=item.getString("local_team_image_team-icon_url_s");
+            String visitImage=item.getString("visit_team_image_team-icon_url_s");
+            String stadiumName=item.getString("stadium_name_s");
+            String startTime=item.getString("start_time_dt");
 
+            matchList.add(new Match(localName, visitName, localGoals, visitGoals, localImage, visitImage, stadiumName, startTime));
+        }
+        initRecycler();
+    }
+
+    private void initRecycler() {
+        recyclerView= (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        layoutManager=new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter=new MatchAdapter(matchList, this);
+        recyclerView.setAdapter(adapter);
     }
 
 
