@@ -34,7 +34,7 @@ public class Match {
         this.startTime = startTime;
     }
 
-    public String getStartTime() {
+    public Date getStartTime() {
         Locale spanish = new Locale("es", "ES");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -45,7 +45,8 @@ public class Match {
             e.printStackTrace();
         }
         SimpleDateFormat sdf2 = new SimpleDateFormat(" EE dd 'de' MMM ' - ' HH:mm'hrs'", spanish);
-        return sdf2.format(timeParse);
+      //  return sdf2.format(timeParse);
+        return timeParse;
     }
 
     public void setStartTime(String startTime) {

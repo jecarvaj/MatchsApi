@@ -39,7 +39,7 @@
                     android:id="@+id/imgLocal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_launcher"/>
+                    />
                 <TextView
                     android:text="Colo-Colo"
                     android:layout_below="@id/imgLocal"
@@ -65,7 +65,7 @@
                     android:id="@+id/imgVisit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_launcher"/>
+                    />
                 <TextView
                     android:text="Universidad de Chile"
                     android:layout_below="@id/imgVisit"
@@ -79,7 +79,7 @@
             android:layout_gravity="center"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/calendar"/>
+            android:background="@drawable/calendar"/>
         <TextView
             android:layout_gravity="center"
             android:layout_width="wrap_content"
