@@ -29,14 +29,15 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Match> matchList;
+    private Boolean hasNext;
+    private int numPage=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        matchList=new ArrayList<>();
 
-
+        initRecycler();
         getData();
     }
 
@@ -44,14 +45,14 @@ public class MainActivity extends AppCompatActivity {
         queue = MySingleton.getInstance(this.getApplicationContext()).
                 getRequestQueue();
 
-        String url = "http://futbol.masfanatico.cl/api/u-chile/match/in_competition/transicion2017";
+        String url = "http://futbol.masfanatico.cl/api/u-chile/match/in_competition/transicion2017?p="+numPage;
 
         final JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-
+                            hasNext=response.getBoolean("has_next");
                             JSONArray jsonArray = response.getJSONArray("items");
                             parseData(jsonArray);//Funcion para crear objetos "Match" a partir de json data
                         } catch (JSONException e) {
@@ -81,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
             String startTime=item.getString("start_time_dt");
 
             matchList.add(new Match(localName, visitName, localGoals, visitGoals, localImage, visitImage, stadiumName, startTime));
+            adapter.notifyDataSetChanged();
         }
-        initRecycler();
     }
 
     private void initRecycler() {
@@ -90,8 +91,27 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+        matchList=new ArrayList<>();
         adapter=new MatchAdapter(matchList, this);
         recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (!recyclerView.canScrollVertically(RecyclerView.FOCUS_DOWN)) {
+                    if (hasNext) {
+                        numPage++;
+                        getData();
+                    }
+                }
+            }
+        });
     }
 
 
