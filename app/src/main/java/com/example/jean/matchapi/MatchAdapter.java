@@ -77,6 +77,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
         holder.imgLocal.setImageUrl(currentMatch.getLocalImage(), queue);
         holder.imgVisit.setImageUrl(currentMatch.getVisitImage(), queue);
         holder.tvGoals.setText(currentMatch.getLocalGoals() + " - " + currentMatch.getVisitGoals());
+
         holder.imgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

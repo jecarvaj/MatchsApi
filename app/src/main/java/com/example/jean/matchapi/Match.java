@@ -1,5 +1,7 @@
 package com.example.jean.matchapi;
 
+import android.support.annotation.NonNull;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,7 +14,7 @@ import static java.util.logging.Level.parse;
  * Created by Jean on 18-12-2017.
  */
 
-public class Match {
+public class Match implements Comparable<Match> {
     private String localName;
     private String visitName;
     private int localGoals;
@@ -51,10 +53,7 @@ public class Match {
         this.startTime = startTime;
     }
 
-    public String getLocalName() {
-        return localName;
-
-    }
+    public String getLocalName() {return localName;}
 
     public void setLocalName(String localName) {
         this.localName = localName;
@@ -106,5 +105,10 @@ public class Match {
 
     public void setStadiumName(String stadiumName) {
         this.stadiumName = stadiumName;
+    }
+
+    @Override
+    public int compareTo(@NonNull Match o) {
+        return o.getStartTime().compareTo(this.getStartTime());
     }
 }

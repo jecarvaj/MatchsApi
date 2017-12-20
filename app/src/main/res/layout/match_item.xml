@@ -25,9 +25,7 @@
             android:text="@string/stadium" />
 
         <LinearLayout style="@style/LinearTeamLayout">
-
             <RelativeLayout style="@style/RTeamLayout">
-
                 <com.android.volley.toolbox.NetworkImageView
                     android:id="@+id/imgLocal"
                     style="@style/TeamImage" />
@@ -59,8 +57,9 @@
             android:id="@+id/btnCalendar"
             style="@style/Calendar" />
 
-        <TextView style="@style/DateAndStadium" />
+        <TextView
+            style="@style/DateAndStadium"
+            android:text="@string/calendar"/>
 
     </LinearLayout>
-
 </android.support.v7.widget.CardView>
