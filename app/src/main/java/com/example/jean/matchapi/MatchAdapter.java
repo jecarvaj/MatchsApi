@@ -1,36 +1,21 @@
 package com.example.jean.matchapi;
 
-import android.Manifest;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.provider.CalendarContract;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.NetworkImageView;
-import com.android.volley.toolbox.Volley;
+
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -47,7 +32,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
     public static class MatchViewHolder extends RecyclerView.ViewHolder {
 
         public TextView tvLocalName, tvVisitName;
-        public TextView tvGoals, tvDateAndStadium;
+        public TextView tvGoals, tvDate, tvStadium;
         public NetworkImageView imgLocal, imgVisit;
         public ImageButton imgButton;
 
@@ -57,7 +42,8 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
             tvLocalName = (TextView) itemView.findViewById(R.id.tvLocalName);
             tvVisitName = (TextView) itemView.findViewById(R.id.tvVisitName);
             tvGoals = (TextView) itemView.findViewById(R.id.tvGoals);
-            tvDateAndStadium = (TextView) itemView.findViewById(R.id.tvDateAndStadium);
+            tvDate = (TextView) itemView.findViewById(R.id.tvDate);
+            tvStadium=(TextView) itemView.findViewById(R.id.tvStadium);
             imgLocal = (NetworkImageView) itemView.findViewById(R.id.imgLocal);
             imgVisit = (NetworkImageView) itemView.findViewById(R.id.imgVisit);
             imgButton = (ImageButton) itemView.findViewById(R.id.btnCalendar);
@@ -84,7 +70,8 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
         SimpleDateFormat sdf = new SimpleDateFormat(" EE dd 'de' MMM ' - ' HH:mm'hrs'", spanish);
         String startTime=sdf.format(currentMatch.getStartTime());
 
-        holder.tvDateAndStadium.setText(startTime + " - " + currentMatch.getStadiumName());
+        holder.tvDate.setText(startTime);
+        holder.tvStadium.setText(currentMatch.getStadiumName());
         holder.tvLocalName.setText(currentMatch.getLocalName());
         holder.tvVisitName.setText(currentMatch.getVisitName());
         holder.imgLocal.setImageUrl(currentMatch.getLocalImage(), queue);
@@ -93,6 +80,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
         holder.imgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Abro calendario y paso datos para guardar evento
                 Intent i = new Intent(Intent.ACTION_EDIT);
                 i.setType("vnd.android.cursor.item/event");
                 i.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, currentMatch.getStartTime().getTime());

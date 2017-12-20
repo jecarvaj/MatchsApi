@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">MatchApi</string>
+    <string name="app_name">Partidos</string>
+    <string name="competition_name">Campeonato Nacional</string>
+    <string name="date">Sáb. 29 de jul. - 16:00hrs</string>
+    <string name="stadium">Estadio Monumental</string>
+    <string name="goals">0 - 0</string>
+    <string name="calendar">Recordar</string>
+    <string name="team_name">Equipo</string>
 </resources>

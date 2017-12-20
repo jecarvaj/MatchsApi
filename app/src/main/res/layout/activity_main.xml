@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context="com.example.jean.matchapi.MainActivity">
 
    <android.support.v7.widget.RecyclerView
@@ -11,6 +12,14 @@
        android:layout_width="match_parent"
        android:layout_height="match_parent"
        android:scrollbars="vertical"
-       android:padding="4dp"/>
+       android:padding="4dp" />
+   <ProgressBar
+       android:id="@+id/progressBar"
+       android:layout_centerHorizontal="true"
+       android:layout_alignParentBottom="true"
+       android:visibility="gone"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" />
+
 
 </RelativeLayout>
