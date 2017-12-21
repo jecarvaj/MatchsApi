@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     //Primero obtengo el numero de paginas, para extraer los datos desde los ultimos al primero
     //para que queden los mas recientes primero
     private void getNumPages() {
-        progressBar.setVisibility(View.VISIBLE);
         String url = "http://futbol.masfanatico.cl/api/u-chile/match/in_competition/transicion2017";
         JsonObjectRequest jsObj=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -69,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Obtengo los datos de la api
     private void getData() {
+        progressBar.setVisibility(View.VISIBLE);
         String url = "http://futbol.masfanatico.cl/api/u-chile/match/in_competition/transicion2017?p=" + numPage;
         final JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
